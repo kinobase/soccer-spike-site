@@ -1,0 +1,119 @@
+[
+  {
+    "id": "overall",
+    "title": "総合ランキング 2026",
+    "description": "全年代・全カテゴリを横断した編集部が選ぶ総合ベスト",
+    "type": "overall",
+    "entries": [
+      { "slug": "morelia-neo-4-beta-japan", "rank": 1, "comment": "フィット感と軽さの完成形" },
+      { "slug": "mercurial-superfly-11-elite", "rank": 2, "comment": "スピード特化の定番王者" },
+      { "slug": "phantom-6-elite-fg", "rank": 3, "comment": "テクニシャンの新定番" },
+      { "slug": "tiempo-legend-10-elite-fg", "rank": 4, "comment": "万能型レザーの最高峰" },
+      { "slug": "copa-pure-2-elite-fg", "rank": 5, "comment": "幅広足にも合う名作" }
+    ],
+    "updatedAt": "2026-04-01T00:00:00Z"
+  },
+  {
+    "id": "price-under5000",
+    "title": "5,000円以下おすすめランキング",
+    "description": "入門・予備用・ジュニアにぴったりな低価格帯",
+    "type": "price",
+    "key": "under5000",
+    "entries": [
+      { "slug": "rebula-cup-junior-ag", "rank": 1, "comment": "圧倒的コスパの幅広ジュニア" },
+      { "slug": "tachikara-junior-tf", "rank": 2, "comment": "土グラウンド派の小学生に" }
+    ],
+    "updatedAt": "2026-04-01T00:00:00Z"
+  },
+  {
+    "id": "price-around10000",
+    "title": "1万円前後の本気の中級モデル",
+    "description": "中学生メインや高校生のサブに最適な価格帯",
+    "type": "price",
+    "key": "around10000",
+    "entries": [
+      { "slug": "monarcida-neo-3-japan", "rank": 1, "comment": "2万以下で買える本格レザー" },
+      { "slug": "mercurial-vapor-16-academy-tf", "rank": 2, "comment": "TFの定番" },
+      { "slug": "predator-club-fg", "rank": 3, "comment": "プレデター入門の決定版" }
+    ],
+    "updatedAt": "2026-04-01T00:00:00Z"
+  },
+  {
+    "id": "price-premium",
+    "title": "ハイエンドモデルランキング",
+    "description": "プロ仕様のフラッグシップ",
+    "type": "price",
+    "key": "premium",
+    "entries": [
+      { "slug": "morelia-neo-4-beta-japan", "rank": 1 },
+      { "slug": "mercurial-superfly-11-elite", "rank": 2 },
+      { "slug": "phantom-6-elite-fg", "rank": 3 },
+      { "slug": "predator-elite-fg", "rank": 4 },
+      { "slug": "x-crazyfast-elite-fg", "rank": 5 }
+    ],
+    "updatedAt": "2026-04-01T00:00:00Z"
+  },
+  {
+    "id": "ground-fg",
+    "title": "FG（天然芝）ランキング",
+    "description": "天然芝・良質なロングパイル人工芝に最適",
+    "type": "ground",
+    "key": "fg",
+    "entries": [
+      { "slug": "morelia-neo-4-beta-japan", "rank": 1 },
+      { "slug": "mercurial-superfly-11-elite", "rank": 2 },
+      { "slug": "predator-elite-fg", "rank": 3 }
+    ],
+    "updatedAt": "2026-04-01T00:00:00Z"
+  },
+  {
+    "id": "ground-ag",
+    "title": "AG（人工芝）ランキング",
+    "description": "短いゴム人工芝に最適なスタッド設計",
+    "type": "ground",
+    "key": "ag",
+    "entries": [
+      { "slug": "future-8-ultimate-fg", "rank": 1 },
+      { "slug": "ultra-ultimate-fg", "rank": 2 }
+    ],
+    "updatedAt": "2026-04-01T00:00:00Z"
+  },
+  {
+    "id": "ground-tf",
+    "title": "TF（トレシュー）ランキング",
+    "description": "土・人工芝での練習用に",
+    "type": "ground",
+    "key": "tf",
+    "entries": [
+      { "slug": "mercurial-vapor-16-academy-tf", "rank": 1 },
+      { "slug": "tachikara-junior-tf", "rank": 2 }
+    ],
+    "updatedAt": "2026-04-01T00:00:00Z"
+  },
+  {
+    "id": "ground-hg",
+    "title": "HG（土・かたい地面）ランキング",
+    "description": "日本の土グラウンド向け",
+    "type": "ground",
+    "key": "hg",
+    "entries": [
+      { "slug": "morelia-neo-4-beta-japan", "rank": 1 },
+      { "slug": "monarcida-neo-3-japan", "rank": 2 },
+      { "slug": "ds-light-acros-3-japan", "rank": 3 }
+    ],
+    "updatedAt": "2026-04-01T00:00:00Z"
+  },
+  {
+    "id": "brand-nike",
+    "title": "Nike人気ランキング",
+    "description": "ナイキの人気スパイク",
+    "type": "brand",
+    "key": "nike",
+    "entries": [
+      { "slug": "mercurial-superfly-11-elite", "rank": 1 },
+      { "slug": "phantom-6-elite-fg", "rank": 2 },
+      { "slug": "tiempo-legend-10-elite-fg", "rank": 3 }
+    ],
+    "updatedAt": "2026-04-01T00:00:00Z"
+  }
+]
