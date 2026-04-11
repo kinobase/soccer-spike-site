@@ -8,7 +8,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/`, lastModified: now, priority: 1 },
     { url: `${SITE_URL}/ranking/overall`, lastModified: now, priority: 0.9 },
     { url: `${SITE_URL}/search`, lastModified: now, priority: 0.6 },
-    { url: `${SITE_URL}/blog`, lastModified: now, priority: 0.6 }
+    { url: `${SITE_URL}/blog`, lastModified: now, priority: 0.6 },
+    { url: `${SITE_URL}/compare`, lastModified: now, priority: 0.5 },
+    { url: `${SITE_URL}/about`, lastModified: now, priority: 0.3 },
+    { url: `${SITE_URL}/privacy`, lastModified: now, priority: 0.2 },
+    { url: `${SITE_URL}/disclaimer`, lastModified: now, priority: 0.2 },
+    { url: `${SITE_URL}/contact`, lastModified: now, priority: 0.3 }
   ];
   posts.forEach((p) => urls.push({ url: `${SITE_URL}/blog/${p.slug}`, lastModified: new Date(p.publishedAt) }));
   ageCategories.forEach((c) => urls.push({ url: `${SITE_URL}/age/${c.key}`, lastModified: now }));
