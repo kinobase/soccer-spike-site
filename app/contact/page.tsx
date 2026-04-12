@@ -15,7 +15,7 @@ export default function Contact() {
       <p className="mt-3 text-sm text-slate-600">スパイクのリクエスト・記事の誤りの指摘・コラボのご相談などお気軽にどうぞ。</p>
 
       <form
-        action="https://formspree.io/f/your-form-id"
+        action="https://formspree.io/f/mbdqrgoq"
         method="POST"
         className="mt-6 space-y-4 bg-white border rounded-xl p-6"
       >
