@@ -8,3 +8,53 @@ html {
 body {
   @apply bg-slate-50 text-slate-900;
 }
+
+@layer components {
+  /* ヒーロー背景の斜めストライプ装飾 */
+  .hero-diagonal::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -55deg,
+      transparent,
+      transparent 40px,
+      rgba(255, 255, 255, 0.03) 40px,
+      rgba(255, 255, 255, 0.03) 80px
+    );
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  /* セクション見出し（左端にオレンジバー） */
+  .section-heading {
+    @apply text-xl md:text-2xl font-extrabold relative pl-4;
+  }
+  .section-heading::before {
+    content: '';
+    @apply absolute left-0 top-0 bottom-0 w-1 bg-accent rounded-full;
+  }
+
+  /* ランクバッジ（カード左上・斜めカット風） */
+  .badge-rank {
+    @apply absolute top-0 left-0 bg-accent text-white text-xs font-black
+           px-3 py-1 rounded-br-xl tracking-wide;
+  }
+
+  /* カードホバー時の浮き上がり＋グロー */
+  .card-glow-hover {
+    @apply transition-all duration-300
+           hover:shadow-[0_8px_30px_rgba(14,165,233,0.25)]
+           hover:-translate-y-1;
+  }
+}
+
+@layer utilities {
+  /* H1のグラデーションテキスト */
+  .text-gradient-sports {
+    background: linear-gradient(90deg, #ffffff 0%, #bae6fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
