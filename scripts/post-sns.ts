@@ -14,7 +14,9 @@ import { TwitterApi } from "twitter-api-v2";
 import spikesJson from "../data/spikes.json";
 import type { Spike } from "../lib/types";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://soccer-spike-site.vercel.app")
+  .trim()
+  .replace(/\/+$/, "");
 const spikes = spikesJson as Spike[];
 
 const args = process.argv.slice(2);

@@ -4,8 +4,8 @@ name: Scheduled Auto-Update & SNS Post
 # 1. 最新ニュースをRSSから取得 → data/posts.json 更新
 # 2. 価格を更新 → data/spikes.json 更新
 # 3. データ検証
-# 4. 変更があればコミット & プッシュ (Vercel等が再デプロイ)
-# 5. SNS自動投稿 (X / Instagram)
+# 4. SNS自動投稿 (X / Instagram)  ← pushより前に実行（集客を止めないため）
+# 5. 変更があればコミット & プッシュ (Vercelが再デプロイ)
 
 on:
   schedule:
@@ -45,6 +45,27 @@ jobs:
       - name: Validate data
         run: npx tsx scripts/validate-data.ts
 
+      # SNS投稿を「git pushより前」に実行する。
+      # こうすることで万一pushが失敗しても、その日の集客投稿は止まらない。
+      # continue-on-error: 投稿APIの一時的な失敗でデータ更新パイプライン全体を落とさない。
+      - name: Post to SNS
+        if: ${{ inputs.skip_post != true }}
+        continue-on-error: true
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          INSTAGRAM_BUSINESS_ID: ${{ secrets.INSTAGRAM_BUSINESS_ID }}
+        run: npx tsx scripts/post-sns.ts
+
+      # データの自動コミット & プッシュ → Vercelが再デプロイ。
+      # ※ このステップが失敗する場合、原因はほぼGitHubの権限設定:
+      #   Settings → Actions → General → Workflow permissions を
+      #   「Read and write permissions」に変更すれば解消する。
+      #   (mainにブランチ保護がある場合はそちらも要確認)
       - name: Commit data changes
         id: commit
         run: |
@@ -59,15 +80,3 @@ jobs:
             git push
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
-
-      - name: Post to SNS
-        if: ${{ inputs.skip_post != true }}
-        env:
-          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
-          X_API_KEY: ${{ secrets.X_API_KEY }}
-          X_API_SECRET: ${{ secrets.X_API_SECRET }}
-          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
-          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
-          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
-          INSTAGRAM_BUSINESS_ID: ${{ secrets.INSTAGRAM_BUSINESS_ID }}
-        run: npx tsx scripts/post-sns.ts

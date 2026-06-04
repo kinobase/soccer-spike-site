@@ -1,6 +1,6 @@
 import Link from "next/link";
 import SpikeCard from "@/components/SpikeCard";
-import { ageCategories, featuredSpikes } from "@/lib/data";
+import { ageCategories, featuredSpikes, spikes } from "@/lib/data";
 import { buildMetadata } from "@/lib/seo";
 import type { AgeCategory } from "@/lib/types";
 
@@ -98,9 +98,9 @@ export default function HomePage() {
 
           {/* 統計バー */}
           <div className="mt-8 flex gap-6 text-white/70 text-xs">
-            <span><strong className="text-white text-lg font-black">50+</strong><br />スパイク掲載</span>
+            <span><strong className="text-white text-lg font-black">{spikes.length}</strong><br />スパイク掲載</span>
             <span className="w-px bg-white/20" />
-            <span><strong className="text-white text-lg font-black">4</strong><br />年代対応</span>
+            <span><strong className="text-white text-lg font-black">{ageCategories.length}</strong><br />年代対応</span>
             <span className="w-px bg-white/20" />
             <span><strong className="text-white text-lg font-black">毎月</strong><br />情報更新</span>
           </div>
