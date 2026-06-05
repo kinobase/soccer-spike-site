@@ -89,13 +89,24 @@ function ogImageUrl(s: Spike): string {
   return `${SITE_URL}/api/og?${params.toString()}`;
 }
 
-async function fetchImageBuffer(url: string): Promise<Buffer> {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`OG fetch failed: ${res.status}`);
-  return Buffer.from(await res.arrayBuffer());
+// OG画像はデプロイ直後などに一時的に取得失敗することがある。
+// リトライ＋タイムアウトで粘り、最終的にダメでも null を返して投稿自体は止めない。
+async function fetchImageBuffer(url: string, retries = 3): Promise<Buffer | null> {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(20000) });
+      if (!res.ok) throw new Error(`status ${res.status}`);
+      return Buffer.from(await res.arrayBuffer());
+    } catch (e) {
+      console.warn(`[og] 画像取得 失敗 ${attempt}/${retries}: ${(e as Error).message}`);
+      if (attempt < retries) await new Promise((r) => setTimeout(r, 3000 * attempt));
+    }
+  }
+  console.warn("[og] 画像を取得できず → Xはテキストのみで投稿します");
+  return null;
 }
 
-async function postToX(text: string, imageBuf: Buffer) {
+async function postToX(text: string, imageBuf: Buffer | null) {
   const { X_API_KEY, X_API_SECRET, X_ACCESS_TOKEN, X_ACCESS_SECRET } = process.env;
   if (!X_API_KEY || !X_API_SECRET || !X_ACCESS_TOKEN || !X_ACCESS_SECRET) {
     console.warn("[X] credentials missing - skipping");
@@ -107,9 +118,15 @@ async function postToX(text: string, imageBuf: Buffer) {
     accessToken: X_ACCESS_TOKEN,
     accessSecret: X_ACCESS_SECRET
   });
-  const mediaId = await client.v1.uploadMedia(imageBuf, { mimeType: "image/png" });
-  const tweet = await client.v2.tweet({ text, media: { media_ids: [mediaId] } });
-  console.log("[X] posted:", tweet.data.id);
+  // 画像が取得できていれば画像付き、ダメならテキストのみで投稿
+  if (imageBuf) {
+    const mediaId = await client.v1.uploadMedia(imageBuf, { mimeType: "image/png" });
+    const tweet = await client.v2.tweet({ text, media: { media_ids: [mediaId] as [string] } });
+    console.log("[X] posted (image):", tweet.data.id);
+  } else {
+    const tweet = await client.v2.tweet({ text });
+    console.log("[X] posted (text-only):", tweet.data.id);
+  }
 }
 
 async function postToInstagram(caption: string, imageUrl: string) {
