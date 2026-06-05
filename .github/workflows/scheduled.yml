@@ -1,22 +1,18 @@
-name: Scheduled Auto-Update & SNS Post
+name: Scheduled Data Auto-Update
 
 # 毎日 朝6時 (UTC 21:00 = JST 6:00) 自動実行
 # 1. 最新ニュースをRSSから取得 → data/posts.json 更新
 # 2. 価格を更新 → data/spikes.json 更新
 # 3. データ検証
-# 4. SNS自動投稿 (X / Instagram)  ← pushより前に実行（集客を止めないため）
-# 5. 変更があればコミット & プッシュ (Vercelが再デプロイ)
+# 4. 変更があればコミット & プッシュ (Vercelが再デプロイ)
+#
+# ※ SNS自動投稿は Vercel Cron (/api/cron/post-sns) に移行済み。
+#   二重投稿防止のため、このワークフローはデータ更新のみを担当する。
 
 on:
   schedule:
     - cron: "0 21 * * *"   # 毎日 JST 06:00
   workflow_dispatch:
-    inputs:
-      skip_post:
-        description: "SNS投稿をスキップ"
-        required: false
-        type: boolean
-        default: false
 
 permissions:
   contents: write
@@ -44,22 +40,6 @@ jobs:
 
       - name: Validate data
         run: npx tsx scripts/validate-data.ts
-
-      # SNS投稿を「git pushより前」に実行する。
-      # こうすることで万一pushが失敗しても、その日の集客投稿は止まらない。
-      # continue-on-error: 投稿APIの一時的な失敗でデータ更新パイプライン全体を落とさない。
-      - name: Post to SNS
-        if: ${{ inputs.skip_post != true }}
-        continue-on-error: true
-        env:
-          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
-          X_API_KEY: ${{ secrets.X_API_KEY }}
-          X_API_SECRET: ${{ secrets.X_API_SECRET }}
-          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
-          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
-          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
-          INSTAGRAM_BUSINESS_ID: ${{ secrets.INSTAGRAM_BUSINESS_ID }}
-        run: npx tsx scripts/post-sns.ts
 
       # データの自動コミット & プッシュ → Vercelが再デプロイ。
       # ※ このステップが失敗する場合、原因はほぼGitHubの権限設定:
