@@ -2,6 +2,9 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "regions": ["hnd1"],
+  "crons": [
+    { "path": "/api/cron/post-sns", "schedule": "0 21 * * *" }
+  ],
   "headers": [
     {
       "source": "/feed.xml",
